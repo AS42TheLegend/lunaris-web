@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNARIS | Command Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; }
+        body { background: var(--bg); color: white; font-family: 'Roboto', sans-serif; margin: 0; overflow-x: hidden; position: relative; min-height: 100vh; }
+        
+        .stars { position: fixed; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; z-index: -1; animation: starMove 200s linear infinite; }
+        @keyframes starMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
+
+        nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .logo { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 5px; color: var(--primary); }
+
+        .hero { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; margin: 0; animation: breathing 5s ease-in-out infinite; letter-spacing: 10px; }
+        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); text-shadow: 0 0 20px var(--primary); } }
+
+        .status-badge { padding: 8px 20px; border-radius: 50px; background: rgba(0,255,100,0.1); border: 1px solid #00ff64; color: #00ff64; font-size: 0.8rem; font-weight: bold; margin-top: 20px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 20px 10% 100px; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; transition: 0.3s; position: relative; overflow: hidden; }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(0,242,255,0.02); }
+        .card h3 { font-family: 'Orbitron', sans-serif; color: var(--primary); margin-top: 0; font-size: 1rem; letter-spacing: 2px; }
+
+        /* Credential Styling */
+        .cred-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; border: 1px dashed rgba(0,242,255,0.3); font-family: monospace; font-size: 0.85rem; margin: 15px 0; position: relative; }
+        .cred-label { color: var(--primary); font-weight: bold; margin-right: 5px; }
+
+        .btn { display: inline-block; padding: 12px 20px; background: white; color: black; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 0.8rem; transition: 0.3s; text-align: center; flex: 1; }
+        .btn:hover { background: var(--primary); transform: scale(1.05); }
+        .btn-outline { background: transparent; border: 1px solid white; color: white; }
+
+        footer { text-align: center; padding: 40px; opacity: 0.2; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; position: relative; bottom: 0; width: 100%; box-sizing: border-box; }
+        .credit-tag { position: fixed; bottom: 20px; right: 30px; font-size: 0.6rem; opacity: 0.3; font-family: 'Orbitron', sans-serif; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<nav>
+    <div class="logo">LUNARIS</div>
+    <div><a href="invite.html" style="color:white; text-decoration:none; font-size:0.7rem; letter-spacing: 1px; border: 1px solid rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 5px;">+ INVITE FRIENDS</a></div>
+</nav>
+
+<section class="hero animate__animated animate__fadeIn">
+    <h1>COMMAND CENTER</h1>
+    <div class="status-badge">● SYSTEM ONLINE</div>
+</section>
+
+<section class="grid">
+    <div class="card animate__animated animate__fadeInUp">
+        <h3>ACCESS GATEWAY</h3>
+        <p style="font-size: 0.8rem; color: #aaa;">Authorized Mesh-VPN Credentials:</p>
+        
+        <div class="cred-box">
+            <div><span class="cred-label">EMAIL:</span> lunarismc@hotmail.com</div>
+            <div style="margin-top: 5px;"><span class="cred-label">PASS:</span> lunaris123</div>
+        </div>
+
+        <p style="font-size: 0.85rem; margin-top: 15px;"><strong>NODE IP: 100.88.180.24</strong></p>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <a href="https://tailscale.com/download" target="_blank" class="btn">TAILSCALE</a>
+            <a href="https://login.live.com" target="_blank" class="btn btn-outline">LOGIN MS</a>
+        </div>
+    </div>
+
+    <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+        <h3>S26 ARCHITECTURE</h3>
+        <p style="font-size: 0.8rem; color: #aaa;">Running SIMD Vector Optimized Canvas Engine.</p>
+        <div style="margin: 20px 0 10px; background:#111; height:8px; border-radius:10px; overflow:hidden;">
+            <div style="width:12%; background:var(--primary); height:100%; box-shadow: 0 0 10px var(--primary);"></div>
+        </div>
+        <small style="opacity:0.4; font-size: 0.7rem;">CPU UTILIZATION: 12.4%</small>
+        <p style="font-size: 0.8rem; margin-top: 15px; color: var(--primary);">STATUS: OPTIMIZED</p>
+    </div>
+
+    <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+        <h3>SMP PROTOCOL</h3>
+        <ul style="font-size: 0.8rem; color: #ccc; padding-left: 20px; line-height: 1.8;">
+            <li>Zero-tolerance for griefing.</li>
+            <li>Maintain Mesh-VPN stability.</li>
+            <li>Maximum entity efficiency.</li>
+        </ul>
+        <div style="margin-top: 25px; font-size: 0.7rem; color: #555; text-align: center;">
+            VERSION: 1.21.X JAVA + BEDROCK
+        </div>
+    </div>
+</section>
+
+<footer>
+    LUNARIS NETWORK V.2026 | BY ABHAY SINGH
+</footer>
+
+<div class="credit-tag">By Abhay Singh</div>
+
+</body>
+</html>
