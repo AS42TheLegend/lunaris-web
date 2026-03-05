@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNARIS | Neural Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; --accent: #ff0064; }
+        
+        body { background: var(--bg); color: white; font-family: 'Roboto', sans-serif; margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        /* MOVING STARS BACKGROUND */
+        .stars { 
+            position: fixed; 
+            top: 0; left: 0;
+            width: 200%; height: 200%; 
+            background: url('https://www.transparenttextures.com/patterns/stardust.png'); 
+            opacity: 0.4; 
+            z-index: -1; 
+            animation: moveBackground 150s linear infinite; 
+        }
+        @keyframes moveBackground {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-50%, -50%); }
+        }
+
+        /* SUCCESS OVERLAY */
+        #success-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 5, 0.95);
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 2000; text-align: center; backdrop-filter: blur(10px);
+        }
+        .success-text { font-family: 'Orbitron', sans-serif; color: var(--primary); letter-spacing: 5px; font-size: 1.5rem; margin-bottom: 10px; }
+
+        /* NOTIFICATION UI */
+        #notification-hub { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .notif-toast {
+            background: rgba(0, 242, 255, 0.1); border: 1px solid var(--primary); backdrop-filter: blur(10px);
+            padding: 12px 20px; border-radius: 5px; font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: var(--primary);
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        /* SUPPORT CARD */
+        .support-card {
+            width: 90%; max-width: 500px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px;
+            position: relative; backdrop-filter: blur(5px); z-index: 10;
+        }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; letter-spacing: 5px; color: var(--accent); text-align: center; margin-bottom: 30px; }
+        
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: #777; margin-bottom: 8px; letter-spacing: 2px; }
+        
+        input, select, textarea {
+            width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px; color: white; font-family: 'Roboto', sans-serif; border-radius: 8px; outline: none; transition: 0.3s;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+
+        /* PRIORITY BUTTONS */
+        .priority-box { display: flex; gap: 10px; margin-top: 5px; }
+        .p-btn {
+            flex: 1; padding: 12px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #555; font-family: 'Orbitron', sans-serif; font-size: 0.6rem; text-align: center;
+            cursor: pointer; transition: 0.3s; border-radius: 5px; letter-spacing: 1px;
+        }
+        .p-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .p-btn.active {
+            border-color: var(--accent); color: var(--accent);
+            background: rgba(255, 0, 100, 0.1); box-shadow: 0 0 10px rgba(255, 0, 100, 0.2); font-weight: bold;
+        }
+
+        .btn-uplink {
+            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--accent);
+            color: var(--accent); font-family: 'Orbitron', sans-serif; font-weight: 900;
+            letter-spacing: 3px; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .btn-uplink:hover { background: var(--accent); color: white; box-shadow: 0 0 20px var(--accent); }
+
+        .back-btn { display: block; text-align: center; margin-top: 25px; color: #555; text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 0.6rem; transition: 0.3s; }
+        .back-btn:hover { color: var(--primary); }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+    </style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div id="notification-hub"></div>
+
+<div id="success-overlay">
+    <div class="success-text animate__animated animate__pulse animate__infinite">UPLINK SUCCESSFUL</div>
+    <p style="color: #777; font-family: 'Orbitron'; font-size: 0.7rem;">THE ARCHITECT HAS BEEN NOTIFIED. DECRYPTION PENDING.</p>
+    <a href="joinlink.html" class="btn-uplink" style="width: auto; padding: 10px 30px; margin-top: 20px; text-decoration: none;">RETURN HOME</a>
+</div>
+
+<div class="support-card animate__animated animate__fadeIn">
+    <h1>DIRECT SUPPORT</h1>
+    
+    <form action="https://formsubmit.co/play.lunaris@outlook.com" method="POST" id="supportForm">
+        <input type="hidden" name="_captcha" value="false">
+        
+        <div class="input-group">
+            <label>OPERATOR IDENTITY</label>
+            <input type="text" name="Operator" id="username" required>
+        </div>
+
+        <div class="input-group">
+            <label>SUPPORT TYPE (ANOMALY CATEGORY)</label>
+            <select name="Support_Type" required>
+                <option value="Connection Error">CONNECTION ERROR</option>
+                <option value="Whitelist Sync">WHITELIST SYNC</option>
+                <option value="Law Violation">LAW VIOLATION REPORT</option>
+                <option value="Voice Chat Help">VOICE CHAT PROTOCOL</option>
+                <option value="Other">OTHER TECHNICAL ANOMALY</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>PRIORITY LEVEL</label>
+            <div class="priority-box">
+                <div class="p-btn" onclick="setPriority(this, 'LOW')">LOW</div>
+                <div class="p-btn active" onclick="setPriority(this, 'MEDIUM')">MEDIUM</div>
+                <div class="p-btn" onclick="setPriority(this, 'CRITICAL')">CRITICAL</div>
+            </div>
+            <input type="hidden" name="Priority" id="priority-value" value="MEDIUM">
+        </div>
+
+        <div class="input-group">
+            <label>MESSAGE DATA</label>
+            <textarea name="Message" rows="4" required placeholder="Describe the situation..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-uplink">INITIATE UPLINK</button>
+    </form>
+
+    <a href="joinlink.html" class="back-btn">< RETURN TO COMMAND CENTER</a>
+</div>
+
+<script>
+    const hub = document.getElementById('notification-hub');
+
+    function createNotif(msg) {
+        const toast = document.createElement('div');
+        toast.className = `notif-toast animate__animated animate__fadeInRight`;
+        toast.innerHTML = `<div style="width:6px;height:6px;background:currentColor;border-radius:50%;animation:pulse 1.5s infinite"></div> <span>${msg}</span>`;
+        hub.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.replace('animate__fadeInRight', 'animate__fadeOutRight');
+            setTimeout(() => toast.remove(), 1000);
+        }, 4000);
+    }
+
+    function setPriority(element, value) {
+        document.querySelectorAll('.p-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+        document.getElementById('priority-value').value = value;
+        createNotif(`PRIORITY SET TO: ${value}`);
+    }
+
+    window.onload = () => {
+        const savedName = localStorage.getItem('lunaris_mc_name') || "GUEST";
+        document.getElementById('username').value = savedName;
+        createNotif(`SUPPORT NODE ACTIVE for ${savedName.toUpperCase()}`);
+    };
+
+    // FORM HANDLING
+    const form = document.getElementById('supportForm');
+    form.addEventListener('submit', function(e) {
+        createNotif("ENCRYPTING UPLINK...");
+        
+        // This part makes the success overlay show up
+        // Note: FormSubmit will redirect by default unless you use AJAX
+        // To see this overlay, you can add e.preventDefault() for testing
+        // document.getElementById('success-overlay').style.display = 'flex';
+    });
+</script>
+
+</body>
+</html>
