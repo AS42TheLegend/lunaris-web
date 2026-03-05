@@ -131,32 +131,23 @@
 // Handle Google Sign-In with "Double-Click Protection"
 const googleBtn = document.getElementById('google-login');
 
-googleBtn.onclick = () => {
-    // Disable the button so it can't be clicked again immediately
-    googleBtn.disabled = true;
-    googleBtn.innerText = "INITIALIZING...";
-    googleBtn.style.opacity = "0.5";
-
+document.getElementById('google-login').onclick = () => {
     const provider = new GoogleAuthProvider();
-    
     signInWithPopup(auth, provider)
       .then((result) => {
-        window.location.href = "2.html"; 
-      })
-      .catch((error) => {
-        // Re-enable the button if there's an error so they can try again
-        googleBtn.disabled = false;
-        googleBtn.innerText = "SIGN IN WITH GOOGLE";
-        googleBtn.style.opacity = "1";
+        // Check if this is a brand-new user or if they haven't set a MC name yet
+        const isNewUser = result._tokenResponse.isNewUser;
+        const existingName = localStorage.getItem('lunaris_mc_name');
 
-        if (error.code === 'auth/cancelled-popup-request') {
-            console.log("A popup request was already pending. Please finish the open window.");
-        } else if (error.code === 'auth/popup-closed-by-user') {
-            alert("Login cancelled. Please keep the window open to sign in.");
+        if (isNewUser || !existingName) {
+            // Send them to the name-linking page
+            window.location.href = "link-account.html";
         } else {
-            alert("Auth Error: " + error.message);
+            // Already set up? Go straight to Command Center
+            window.location.href = "2.html";
         }
-      });
+      })
+      .catch((error) => alert("Auth Error: " + error.message));
 };
 </script>
 
