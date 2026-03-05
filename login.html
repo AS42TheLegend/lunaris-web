@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNARIS | LOGIN ARCHIVE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; }
+        body { 
+            background: radial-gradient(circle at center, #080112 0%, #030305 100%);
+            color: white; font-family: 'Roboto', sans-serif; margin: 0; 
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+        
+        .stars { position: fixed; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; z-index: -1; animation: starMove 200s linear infinite; }
+        @keyframes starMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
+
+        .auth-card {
+            background: rgba(0, 0, 0, 0.8); padding: 40px; border-radius: 30px;
+            border: 1px solid rgba(0, 242, 255, 0.1); backdrop-filter: blur(20px);
+            width: 100%; max-width: 450px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        h2 { font-family: 'Orbitron', sans-serif; letter-spacing: 4px; color: var(--primary); margin-bottom: 30px; }
+
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { font-size: 0.7rem; color: var(--primary); font-family: 'Orbitron', sans-serif; margin-left: 5px; }
+        
+        input {
+            width: 100%; padding: 12px 15px; margin-top: 5px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; color: white; font-size: 0.9rem; box-sizing: border-box;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); outline: none; background: rgba(0, 242, 255, 0.05); }
+
+        .btn-submit {
+            width: 100%; padding: 15px; margin-top: 20px;
+            background: white; color: black; border: none; border-radius: 10px;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-submit:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); transform: translateY(-2px); }
+
+        .divider { margin: 30px 0; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .divider span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #080112; padding: 0 15px; font-size: 0.7rem; color: #555; }
+
+        .social-btn {
+            width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; color: white; font-family: 'Orbitron', sans-serif; cursor: pointer; transition: 0.3s;
+        }
+        .social-btn:hover { background: var(--primary); color: black; }
+
+        .signup-link { margin-top: 25px; font-size: 0.8rem; color: #777; }
+        .signup-link a { color: var(--primary); text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<div class="auth-card animate__animated animate__fadeIn">
+    <h2>RESTORE SESSION</h2>
+    
+    <form id="login-form">
+        <div class="input-group">
+            <label>EMAIL ADDRESS</label>
+            <input type="email" id="email" placeholder="mail@example.com" required>
+        </div>
+        <div class="input-group">
+            <label>PASSWORD</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-submit" id="login-btn">ENTER COMMAND CENTER</button>
+    </form>
+
+    <div class="divider"><span>OR</span></div>
+
+    <button class="social-btn" id="google-login">SIGN IN WITH GOOGLE</button>
+
+    <p class="signup-link">New to the network? <a href="signup.html">CREATE ARCHIVE</a></p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getAuth, 
+    GoogleAuthProvider, 
+    signInWithPopup, 
+    signInWithEmailAndPassword 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA-EUalXIPLZ2BPtuATcbTfgk4meQt58GY",
+    authDomain: "lunaris-af69a.firebaseapp.com",
+    projectId: "lunaris-af69a",
+    storageBucket: "lunaris-af69a.firebasestorage.app",
+    messagingSenderId: "88525957564",
+    appId: "1:88525957564:web:a56377cbd412e0f63fa3b9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Google Login Logic
+  document.getElementById('google-login').onclick = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // After Google login, we check if they've linked a MC username
+        const mcName = localStorage.getItem('lunaris_mc_name');
+        window.location.href = mcName ? "link-account.html" : "link-account.html";
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  // Manual Login Logic
+  document.getElementById('login-form').onsubmit = (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const pass = document.getElementById('password').value;
+
+    signInWithEmailAndPassword(auth, email, pass)
+      .then(() => { window.location.href = "link-account.html"; })
+      .catch((error) => alert("Invalid Credentials: " + error.message));
+  };
+</script>
+
+</body>
+</html>
