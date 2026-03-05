@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNARIS | LINK IDENTITY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #00f2ff; --bg: #030305; }
+        body { 
+            background: radial-gradient(circle at center, #080112 0%, #030305 100%);
+            color: white; font-family: 'Roboto', sans-serif; margin: 0; 
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+        .auth-card {
+            background: rgba(0, 0, 0, 0.8); padding: 40px; border-radius: 30px;
+            border: 1px solid var(--primary); backdrop-filter: blur(20px);
+            width: 100%; max-width: 400px; text-align: center;
+        }
+        h2 { font-family: 'Orbitron', sans-serif; color: var(--primary); letter-spacing: 2px; }
+        input {
+            width: 100%; padding: 12px; margin: 20px 0;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px; color: white; box-sizing: border-box;
+        }
+        .btn {
+            width: 100%; padding: 15px; background: white; color: black;
+            border: none; border-radius: 10px; font-family: 'Orbitron', sans-serif;
+            font-weight: 900; cursor: pointer; transition: 0.3s;
+        }
+        .btn:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="auth-card animate__animated animate__fadeIn">
+        <h2>LINK MINECRAFT</h2>
+        <p style="font-size: 0.8rem; color: #777;">Identity verified. Enter your in-game name to synchronize your archive.</p>
+        <input type="text" id="mc-name" placeholder="Minecraft Username" required>
+        <button class="btn" onclick="saveAndProceed()">COMPLETE ARCHIVE</button>
+    </div>
+
+    <script>
+        function saveAndProceed() {
+            const name = document.getElementById('mc-name').value;
+            if(name.length < 3) return alert("Enter a valid name.");
+            
+            // For now, we save it to local storage. 
+            // In a real database, you'd send this to Firebase Firestore.
+            localStorage.setItem('lunaris_mc_name', name);
+            window.location.href = "2.html";
+        }
+    </script>
+</body>
+</html>
