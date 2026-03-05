@@ -25,9 +25,18 @@
         nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
         .logo { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 5px; color: var(--primary); }
 
-        .hero { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        /* USER IDENTITY STYLES */
+        .user-nav-box { display: flex; align-items: center; gap: 15px; }
+        .user-status { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; text-align: right; color: #777; border-right: 1px solid var(--primary); padding-right: 15px; }
+        #nav-username { color: var(--primary); font-weight: 900; display: block; font-size: 0.75rem; letter-spacing: 1px; }
+
+        .hero { height: 45vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; margin: 0; animation: breathing 5s ease-in-out infinite; letter-spacing: 10px; }
         @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); text-shadow: 0 0 20px var(--primary); } }
+
+        /* WELCOME TEXT STYLE */
+        .welcome-msg { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: #aaa; letter-spacing: 3px; margin-bottom: 10px; text-transform: uppercase; }
+        #hero-username { color: var(--primary); font-weight: 900; text-shadow: 0 0 10px rgba(0,242,255,0.3); }
 
         .status-badge { padding: 8px 20px; border-radius: 50px; background: rgba(0,255,100,0.1); border: 1px solid #00ff64; color: #00ff64; font-size: 0.8rem; font-weight: bold; margin-top: 20px; }
 
@@ -59,10 +68,17 @@
 
 <nav>
     <div class="logo">LUNARIS</div>
-    <div><a href="#install" style="color:white; text-decoration:none; font-size:0.7rem; letter-spacing: 1px; border: 1px solid var(--primary); padding: 8px 15px; border-radius: 5px;">INSTALL GUIDE</a></div>
+    <div class="user-nav-box">
+        <div class="user-status">
+            OPERATOR:
+            <span id="nav-username">UNIDENTIFIED</span>
+        </div>
+        <a href="#install" style="color:white; text-decoration:none; font-size:0.7rem; letter-spacing: 1px; border: 1px solid var(--primary); padding: 8px 15px; border-radius: 5px;">INSTALL GUIDE</a>
+    </div>
 </nav>
 
 <section class="hero animate__animated animate__fadeIn">
+    <div class="welcome-msg">WELCOME BACK, <span id="hero-username">GUEST</span></div>
     <h1>COMMAND CENTER</h1>
     <div class="status-badge">● SYSTEM ONLINE</div>
 </section>
@@ -188,6 +204,22 @@
 <footer>
     LUNARIS NETWORK V.2026 | BY ABHAY SINGH
 </footer>
+
+<script>
+    // LOAD SAVED USERNAME ON PAGE START
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const savedName = localStorage.getItem('lunaris_mc_name');
+
+        if (savedName) {
+            // Update the UI with the name
+            document.getElementById('nav-username').innerText = savedName.toUpperCase();
+            document.getElementById('hero-username').innerText = savedName.toUpperCase();
+        } else {
+            // If someone tries to access this page directly without signing up/linking
+            window.location.href = "link-account.html";
+        }
+    });
+</script>
 
 </body>
 </html>
