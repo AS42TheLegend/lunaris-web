@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; }
+        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; --error: #ff3e3e; }
         body { 
             background: radial-gradient(circle at center, #080112 0%, #030305 100%);
             color: white; font-family: 'Roboto', sans-serif; margin: 0; 
@@ -25,6 +25,13 @@
 
         h2 { font-family: 'Orbitron', sans-serif; letter-spacing: 4px; color: var(--primary); margin-bottom: 30px; }
 
+        /* Error Terminal Style */
+        #error-terminal {
+            display: none; background: rgba(255, 62, 62, 0.1); border: 1px solid var(--error);
+            color: var(--error); font-size: 0.75rem; padding: 12px; border-radius: 10px;
+            margin-bottom: 20px; font-family: monospace; text-align: left;
+        }
+
         .input-group { margin-bottom: 15px; text-align: left; position: relative; }
         label { font-size: 0.7rem; color: var(--primary); font-family: 'Orbitron', sans-serif; margin-left: 5px; }
         
@@ -36,7 +43,6 @@
         }
         input:focus { border-color: var(--primary); outline: none; background: rgba(0, 242, 255, 0.05); }
 
-        /* Show Password Toggle */
         .show-pass-container {
             display: flex; align-items: center; margin-top: 8px; cursor: pointer; width: fit-content;
         }
@@ -70,6 +76,8 @@
 
 <div class="auth-card animate__animated animate__fadeIn">
     <h2>RESTORE SESSION</h2>
+    
+    <div id="error-terminal"></div>
     
     <form id="login-form">
         <div class="input-group">
@@ -115,46 +123,49 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // Helper function to decide where to go
+  const errorBox = document.getElementById('error-terminal');
+
+  // Unified Error Function
+  function showError(msg) {
+      errorBox.innerText = "> ACCESS_DENIED: " + msg.toUpperCase().replace('AUTH/', '').replace(/-/g, '_');
+      errorBox.style.display = 'block';
+      errorBox.classList.add('animate__animated', 'animate__shakeX');
+      setTimeout(() => errorBox.classList.remove('animate__shakeX'), 500);
+  }
+
   const redirectUser = () => {
     const mcName = localStorage.getItem('lunaris_mc_name');
-    if (mcName) {
-        window.location.href = "joinlink.html"; // Skip link page
-    } else {
-        window.location.href = "link-account.html"; // Need to link first
-    }
+    window.location.href = mcName ? "joinlink.html" : "link-account.html";
   };
 
   // Google Login Logic
   document.getElementById('google-login').onclick = () => {
+    errorBox.style.display = 'none';
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then(() => redirectUser())
-      .catch((error) => alert(error.message));
+      .catch((error) => showError(error.code || error.message));
   };
 
   // Manual Login Logic
   document.getElementById('login-form').onsubmit = (e) => {
     e.preventDefault();
+    errorBox.style.display = 'none';
     const email = document.getElementById('email').value;
     const pass = document.getElementById('password').value;
 
     signInWithEmailAndPassword(auth, email, pass)
       .then(() => redirectUser())
-      .catch((error) => alert("Invalid Credentials: " + error.message));
+      .catch((error) => showError(error.code || "INVALID_CREDENTIALS"));
   };
 
   // Password Visibility Toggle
   window.togglePass = () => {
       const passField = document.getElementById('password');
       const check = document.getElementById('check-pass');
-      if (passField.type === "password") {
-          passField.type = "text";
-          check.checked = true;
-      } else {
-          passField.type = "password";
-          check.checked = false;
-      }
+      const isPass = passField.type === "password";
+      passField.type = isPass ? "text" : "password";
+      check.checked = isPass;
   };
 </script>
 
