@@ -5,28 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUNARIS | Command Center</title>
 
-    <meta property="og:title" content="Lunaris MC | Official Command Center">
-    <meta property="og:description" content="Join the ultimate cross-play Minecraft experience. Tailscale enabled.">
-    <meta property="og:image" content="https://lunaris-web.pages.dev/banner.png">
-    <meta property="og:url" content="https://lunarismc.xo.je">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <link rel="icon" type="image/png" href="favicon.png">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; }
-        body { background: var(--bg); color: white; font-family: 'Roboto', sans-serif; margin: 0; overflow-x: hidden; position: relative; min-height: 100vh; }
+        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; --accent: #ff0064; }
+        body { background: var(--bg); color: white; font-family: 'Roboto', sans-serif; margin: 0; overflow-x: hidden; position: relative; min-height: 100vh; scroll-behavior: smooth; }
         
         .stars { position: fixed; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; z-index: -1; animation: starMove 200s linear infinite; }
         @keyframes starMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
 
         nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-        .logo { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 5px; color: var(--primary); }
+        .logo { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 5px; color: var(--primary); text-decoration: none; }
 
-        /* USER IDENTITY STYLES */
         .user-nav-box { display: flex; align-items: center; gap: 15px; }
+        .nav-links { display: flex; gap: 15px; margin-right: 20px; }
+        .nav-links a { color: #aaa; text-decoration: none; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        
         .user-status { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; text-align: right; color: #777; border-right: 1px solid var(--primary); padding-right: 15px; }
         #nav-username { color: var(--primary); font-weight: 900; display: block; font-size: 0.75rem; letter-spacing: 1px; }
 
@@ -34,7 +29,6 @@
         .hero h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; margin: 0; animation: breathing 5s ease-in-out infinite; letter-spacing: 10px; }
         @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); text-shadow: 0 0 20px var(--primary); } }
 
-        /* WELCOME TEXT STYLE */
         .welcome-msg { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: #aaa; letter-spacing: 3px; margin-bottom: 10px; text-transform: uppercase; }
         #hero-username { color: var(--primary); font-weight: 900; text-shadow: 0 0 10px rgba(0,242,255,0.3); }
 
@@ -42,24 +36,27 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 20px 10% 50px; }
         .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; transition: 0.3s; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(0,242,255,0.02); }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(0,242,255,0.02); }
         .card h3 { font-family: 'Orbitron', sans-serif; color: var(--primary); margin-top: 0; font-size: 1rem; letter-spacing: 2px; }
 
         .cred-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; border: 1px dashed rgba(0,242,255,0.3); font-family: monospace; font-size: 0.85rem; margin: 15px 0; }
         .cred-label { color: var(--primary); font-weight: bold; margin-right: 5px; }
 
-        .instruction-section { padding: 20px 10% 100px; }
-        .step { margin-bottom: 20px; padding-left: 15px; border-left: 2px solid var(--primary); }
-        .step h4 { color: var(--primary); margin: 0 0 5px 0; font-size: 0.9rem; text-transform: uppercase; }
+        .instruction-section { padding: 40px 10% 60px; }
+        .step { margin-bottom: 30px; padding-left: 20px; border-left: 2px solid var(--primary); }
+        .step h4 { color: var(--primary); margin: 0 0 10px 0; font-size: 1.1rem; text-transform: uppercase; font-family: 'Orbitron', sans-serif; }
 
-        .btn { display: inline-block; padding: 12px 20px; background: white; color: black; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 0.8rem; transition: 0.3s; text-align: center; box-sizing: border-box; width: 100%; margin-top: auto; }
+        .btn { display: inline-block; padding: 12px 20px; background: white; color: black; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 0.8rem; transition: 0.3s; text-align: center; box-sizing: border-box; width: 100%; cursor: pointer; border: none; }
         .btn:hover { background: var(--primary); transform: scale(1.02); }
-        .btn-outline { background: transparent; border: 1px solid white; color: white; }
+        .btn-outline { background: transparent; border: 1px solid white; color: white; margin-top: 10px; }
 
         .stat-row { display: flex; justify-content: space-between; font-size: 0.8rem; margin: 10px 0; color: #aaa; }
         .stat-val { color: var(--primary); font-family: 'Orbitron', sans-serif; }
 
-        footer { text-align: center; padding: 40px; opacity: 0.2; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+        .btn-terminate { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 10px 30px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s; }
+        .btn-terminate:hover { background: var(--accent); color: white; box-shadow: 0 0 15px var(--accent); }
+
+        footer { text-align: center; padding: 40px; opacity: 0.3; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -67,13 +64,17 @@
 <div class="stars"></div>
 
 <nav>
-    <div class="logo">LUNARIS</div>
+    <a href="#" class="logo">LUNARIS</a>
     <div class="user-nav-box">
+        <div class="nav-links">
+            <a href="#about">ABOUT</a>
+            <a href="#help">HELP</a>
+            <a href="#install">INSTALL</a>
+        </div>
         <div class="user-status">
             OPERATOR:
             <span id="nav-username">UNIDENTIFIED</span>
         </div>
-        <a href="#install" style="color:white; text-decoration:none; font-size:0.7rem; letter-spacing: 1px; border: 1px solid var(--primary); padding: 8px 15px; border-radius: 5px;">INSTALL GUIDE</a>
     </div>
 </nav>
 
@@ -86,14 +87,14 @@
 <section class="grid">
     <div class="card animate__animated animate__fadeInUp">
         <h3>ACCESS GATEWAY</h3>
-        <p style="font-size: 0.8rem; color: #aaa;">Authorized Mesh-VPN Credentials:</p>
+        <p style="font-size: 0.8rem; color: #aaa;">Mesh-VPN Credentials:</p>
         <div class="cred-box">
             <div><span class="cred-label">EMAIL:</span>lunarismc@hotmail.com</div>
             <div style="margin-top: 5px;"><span class="cred-label">PASS:</span> lunaris123</div>
         </div>
         <div style="display: flex; gap: 10px; margin-top: 20px;">
             <a href="https://tailscale.com/download" target="_blank" class="btn">TAILSCALE</a>
-            <a href="https://login.live.com" target="_blank" class="btn btn-outline" style="margin-top: 0;">LOGIN MS</a>
+            <button onclick="copyIP()" class="btn btn-outline" style="margin-top: 0;">COPY IP</button>
         </div>
     </div>
 
@@ -120,7 +121,7 @@
         <div class="stat-row" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
             <span>UPCOMING</span><span class="stat-val" style="font-size: 0.65rem;">THE END RAID</span>
         </div>
-        <p style="font-size: 0.7rem; color: #555; margin-top: 10px;">Monitor logs for updates.</p>
+        <p style="font-size: 0.7rem; color: #555; margin-top: 10px;">Check logs for more intel.</p>
     </div>
 
     <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
@@ -135,7 +136,6 @@
         <div class="stat-row"><span>LOCAL (ASIA)</span><span class="stat-val">24 MS</span></div>
         <div class="stat-row"><span>GLOBAL (EU)</span><span class="stat-val">140 MS</span></div>
         <div class="stat-row"><span>GLOBAL (US)</span><span class="stat-val">210 MS</span></div>
-        <p style="font-size: 0.7rem; color: #555; margin-top: 10px;">Network routing is optimized.</p>
     </div>
 
     <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
@@ -143,7 +143,7 @@
         <div style="margin: 20px 0 10px; background:#111; height:8px; border-radius:10px; overflow:hidden;">
             <div style="width:100%; background:var(--primary); height:100%; box-shadow: 0 0 10px var(--primary);"></div>
         </div>
-        <p style="font-size: 0.75rem;">IP: 100.88.180.24<br>PORT: 19132 (BEDROCK)</p>
+        <p style="font-size: 0.75rem;">IP: 100.88.180.24<br>PORT: 25565 (BEDROCK)</p>
         <p style="font-size: 0.8rem; margin-top: 15px; color: var(--primary);">CROSS-PLAY: ACTIVE</p>
     </div>
 
@@ -157,43 +157,45 @@
 
 <section id="install" class="instruction-section animate__animated animate__fadeIn">
     <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--primary); text-align: center; margin-bottom: 40px; text-shadow: 0 0 15px var(--primary);">
-        🚀 HOW TO JOIN
+        🚀 INSTALLATION PROTOCOL
     </h2>
     
-    <div class="card" style="background: rgba(0,0,0,0.8); border: 1px solid var(--primary);">
+    <div class="card" style="background: rgba(0,0,0,0.8); border: 1px solid var(--primary); padding: 40px;">
         
-        <div class="step" style="border-left-color: #ff0064;">
-            <h4 style="color: #ff0064;">Step 1: Get the "Key" (For Everyone)</h4>
-            <p style="font-size: 0.9rem; color: #fff;">Whether you are on <strong>PC or Mobile</strong>, you must do this first or the server won't show up.</p>
-            <ul style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">
+        <div class="step" style="border-left-color: var(--accent);">
+            <h4 style="color: var(--accent);">Step 1: Get the "Key" (For Everyone)</h4>
+            <p style="font-size: 0.95rem; color: #fff; margin-bottom: 15px;">Whether you are on <strong>PC or Mobile</strong>, you must do this first or the server won't show up.</p>
+            <ul style="font-size: 0.9rem; color: #ccc; line-height: 1.8;">
                 <li>Download <strong>Tailscale</strong> from your App Store (Mobile) or the button above (PC).</li>
                 <li>Open the app and click <b>"Log in with Microsoft"</b>.</li>
                 <li>Use these exact details to log in:
                     <br><span style="color:var(--primary)">Email:</span> <code>lunarismc@hotmail.com</code>
                     <br><span style="color:var(--primary)">Password:</span> <code>lunaris123</code>
                 </li>
-                <li>Turn the switch <strong>ON</strong> inside the Tailscale app. You are now connected!</li>
+                <li>Turn the switch <strong>ON</strong> inside the Tailscale app. You are now connected to the mesh network!</li>
             </ul>
         </div>
 
         <div class="step">
-            <h4>Step 2: If you are on PC (Java)</h4>
-            <ul style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">
+            <h4>Step 2: If you are on PC (Java Edition)</h4>
+            <ul style="font-size: 0.9rem; color: #ccc; line-height: 1.8;">
                 <li>Launch Minecraft <strong>1.21.1</strong>.</li>
                 <li>Go to <strong>Multiplayer</strong> > <strong>Add Server</strong>.</li>
+                <li><strong>Server Name:</strong> <code>LUNARIS</code></li>
                 <li><strong>Server Address:</strong> <code>100.88.180.24</code></li>
                 <li>Join and have fun!</li>
             </ul>
         </div>
 
         <div class="step">
-            <h4>Step 2: If you are on Mobile/Tablet (Bedrock)</h4>
-            <ul style="font-size: 0.85rem; color: #ccc; line-height: 1.6;">
+            <h4>Step 2: If you are on Mobile/Tablet (Bedrock Edition)</h4>
+            <ul style="font-size: 0.9rem; color: #ccc; line-height: 1.8;">
                 <li>Open Minecraft and tap <strong>Play</strong>.</li>
                 <li>Tap the <strong>Servers</strong> tab.</li>
                 <li>Scroll to the bottom and tap <strong>Add Server</strong>.</li>
+                <li><strong>Server Name:</strong> <code>LUNARIS</code></li>
                 <li><strong>Address:</strong> <code>100.88.180.24</code></li>
-                <li><strong>Port:</strong> <code>19132</code></li>
+                <li><strong>Port:</strong> <code>25565</code> (Crucial for Cross-play)</li>
                 <li>Tap <strong>Save</strong>, then click the server to Join!</li>
             </ul>
         </div>
@@ -201,24 +203,95 @@
     </div>
 </section>
 
+<section id="about" class="instruction-section animate__animated animate__fadeIn">
+    <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--secondary); text-align: center; margin-bottom: 40px; text-shadow: 0 0 15px var(--secondary);">
+        📜 ARCHIVE: THE FOUNDER
+    </h2>
+    <div class="card" style="background: rgba(10, 10, 20, 0.9); border: 1px solid var(--secondary); line-height: 1.8;">
+        <h3 style="color: var(--secondary); margin-bottom: 20px; letter-spacing: 2px;">ARCHITECT ABHAY SINGH</h3>
+        <p style="font-size: 0.95rem; color: #ddd; text-align: justify; margin-bottom: 20px;">
+            The LUNARIS network was forged in the digital fires by the legendary polymath <strong>Abhay Singh</strong>. Known in deep-web circles as the <i>"Ghost of the Mesh,"</i> Abhay Singh is a master-tier systems architect who reportedly began coding neural networks before he could speak. At the age of 14, it is whispered that he successfully rerouted satellite traffic to reduce his Minecraft latency to 0ms, a feat that remains unexplained by modern physics.
+        </p>
+        <p style="font-size: 0.95rem; color: #ddd; text-align: justify; margin-bottom: 20px;">
+            Abhay is the lead visionary behind the "Geyser Bridge" technology used in LUNARIS, allowing Bedrock and Java realms to coexist within the same space-time continuum without catastrophic data loss. When he isn't optimizing the Lunaris Core, he is often found consulting for global tech giants on quantum encryption or winning high-stakes chess matches against supercomputers in undisclosed locations.
+        </p>
+        <p style="font-size: 0.95rem; color: #ddd; text-align: justify;">
+            He built LUNARIS not for profit, but as a digital sanctuary—a world where the laws of physics are secondary to the laws of the Architect. To play on his server is not just to play a game; it is to walk within a living masterpiece designed by the greatest mind of our generation. Every line of code in this Command Center was hand-scribed to ensure total operator dominance.
+        </p>
+    </div>
+</section>
+
+<section id="help" class="instruction-section animate__animated animate__fadeIn">
+    <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--primary); text-align: center; margin-bottom: 40px; text-shadow: 0 0 15px var(--primary);">
+        🛠️ NEURAL SUPPORT
+    </h2>
+
+    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: #777; margin-bottom: 20px; letter-spacing: 2px;">> COMMON_ERROR_DECRYPTION</h3>
+    <div class="grid" style="padding: 0; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 50px;">
+        <div class="card">
+            <h3>"NETWORK UNREACHABLE"</h3>
+            <p style="font-size: 0.8rem; color: #aaa;">Tailscale is likely idle. Toggle the switch <b>OFF</b> and <b>ON</b>. Ensure you see the VPN icon in your device status bar.</p>
+        </div>
+        <div class="card">
+            <h3>"INVALID SESSION"</h3>
+            <p style="font-size: 0.8rem; color: #aaa;">Common Java error. Restart your Minecraft Launcher to refresh your Microsoft token with Mojang servers.</p>
+        </div>
+        <div class="card">
+            <h3>"STUCK ON LOCATING"</h3>
+            <p style="font-size: 0.8rem; color: #aaa;">Bedrock Issue: Verify the Port is <b>25565</b>. If it's 19133, you are hitting the wrong gateway.</p>
+        </div>
+        <div class="card">
+            <h3>"OUTDATED CLIENT"</h3>
+            <p style="font-size: 0.8rem; color: #aaa;">LUNARIS runs on <b>1.21.1</b>. Ensure your game version matches the server node exactly.</p>
+        </div>
+        <div class="card">
+            <h3>"KICKED BY FLY"</h3>
+            <p style="font-size: 0.8rem; color: #aaa;">Anti-cheat triggered. Ensure you aren't using "Hacked" clients or illegal movement mods while on the mesh.</p>
+        </div>
+        <div class="card">
+            <h3>"FALLING THROUGH WORLD"</h3>
+            <p style="font-size: 0.8rem; color: #aaa;">This is a latency spike. Wait 30 seconds for the terrain to sync or reconnect to Tailscale.</p>
+        </div>
+    </div>
+
+    <h3 style="font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--accent); margin-bottom: 20px; letter-spacing: 2px;">> EMERGENCY_UPLINK</h3>
+    <div class="card" style="border: 1px solid var(--accent); background: rgba(255, 0, 100, 0.03); display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+        <div style="flex: 1; min-width: 250px;">
+            <h3 style="color: var(--accent);">NEED DIRECT ASSISTANCE?</h3>
+            <p style="font-size: 0.85rem; color: #ccc;">If the decryption steps fail, contact <b>Abhay Singh</b> or a Moderator via our encrypted support channel.</p>
+        </div>
+        <a href="https://discord.gg/yourlink" target="_blank" class="btn" style="background: var(--accent); color: white; width: auto; padding: 15px 40px;">CONTACT US</a>
+    </div>
+</section>
+
+<div style="text-align: center; margin-bottom: 100px;">
+    <button onclick="logout()" class="btn-terminate">TERMINATE SESSION (LOGOUT)</button>
+</div>
+
 <footer>
-    LUNARIS NETWORK V.2026 | BY ABHAY SINGH
+    LUNARIS NETWORK V.2026 | DESIGNED BY ABHAY SINGH | ENCRYPTED PROTOCOL
 </footer>
 
 <script>
-    // LOAD SAVED USERNAME ON PAGE START
-    window.addEventListener('DOMContentLoaded', (event) => {
+    window.addEventListener('DOMContentLoaded', () => {
         const savedName = localStorage.getItem('lunaris_mc_name');
-
         if (savedName) {
-            // Update the UI with the name
             document.getElementById('nav-username').innerText = savedName.toUpperCase();
             document.getElementById('hero-username').innerText = savedName.toUpperCase();
         } else {
-            // If someone tries to access this page directly without signing up/linking
             window.location.href = "link-account.html";
         }
     });
+
+    function copyIP() {
+        navigator.clipboard.writeText("100.88.180.24");
+        alert("IP COPIED: 100.88.180.24");
+    }
+
+    function logout() {
+        localStorage.removeItem('lunaris_mc_name');
+        window.location.href = "login.html";
+    }
 </script>
 
 </body>
