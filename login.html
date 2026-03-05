@@ -25,7 +25,7 @@
 
         h2 { font-family: 'Orbitron', sans-serif; letter-spacing: 4px; color: var(--primary); margin-bottom: 30px; }
 
-        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group { margin-bottom: 15px; text-align: left; position: relative; }
         label { font-size: 0.7rem; color: var(--primary); font-family: 'Orbitron', sans-serif; margin-left: 5px; }
         
         input {
@@ -35,6 +35,13 @@
             transition: 0.3s;
         }
         input:focus { border-color: var(--primary); outline: none; background: rgba(0, 242, 255, 0.05); }
+
+        /* Show Password Toggle */
+        .show-pass-container {
+            display: flex; align-items: center; margin-top: 8px; cursor: pointer; width: fit-content;
+        }
+        .show-pass-container input[type="checkbox"] { width: auto; margin: 0 8px 0 5px; cursor: pointer; }
+        .show-pass-label { font-size: 0.65rem; color: #777; font-family: 'Orbitron', sans-serif; cursor: pointer; }
 
         .btn-submit {
             width: 100%; padding: 15px; margin-top: 20px;
@@ -72,6 +79,10 @@
         <div class="input-group">
             <label>PASSWORD</label>
             <input type="password" id="password" placeholder="••••••••" required>
+            <div class="show-pass-container" onclick="togglePass()">
+                <input type="checkbox" id="check-pass">
+                <span class="show-pass-label">DECRYPT MASK</span>
+            </div>
         </div>
         <button type="submit" class="btn-submit" id="login-btn">ENTER COMMAND CENTER</button>
     </form>
@@ -104,15 +115,21 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  // Helper function to decide where to go
+  const redirectUser = () => {
+    const mcName = localStorage.getItem('lunaris_mc_name');
+    if (mcName) {
+        window.location.href = "joinlink.html"; // Skip link page
+    } else {
+        window.location.href = "link-account.html"; // Need to link first
+    }
+  };
+
   // Google Login Logic
   document.getElementById('google-login').onclick = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
-        // After Google login, we check if they've linked a MC username
-        const mcName = localStorage.getItem('lunaris_mc_name');
-        window.location.href = mcName ? "link-account.html" : "link-account.html";
-      })
+      .then(() => redirectUser())
       .catch((error) => alert(error.message));
   };
 
@@ -123,8 +140,21 @@
     const pass = document.getElementById('password').value;
 
     signInWithEmailAndPassword(auth, email, pass)
-      .then(() => { window.location.href = "link-account.html"; })
+      .then(() => redirectUser())
       .catch((error) => alert("Invalid Credentials: " + error.message));
+  };
+
+  // Password Visibility Toggle
+  window.togglePass = () => {
+      const passField = document.getElementById('password');
+      const check = document.getElementById('check-pass');
+      if (passField.type === "password") {
+          passField.type = "text";
+          check.checked = true;
+      } else {
+          passField.type = "password";
+          check.checked = false;
+      }
   };
 </script>
 
