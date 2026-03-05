@@ -71,7 +71,7 @@
 <div class="stars"></div>
 
 <div class="auth-card animate__animated animate__zoomIn">
-    <h2>CREATE AN ACCOUNT</h2>
+    <h2>INITIALIZE ARCHIVE</h2>
     
     <form id="signup-form">
         <div class="input-group">
@@ -114,7 +114,6 @@
     createUserWithEmailAndPassword 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-  // Your Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyA-EUalXIPLZ2BPtuATcbTfgk4meQt58GY",
     authDomain: "lunaris-af69a.firebaseapp.com",
@@ -128,31 +127,54 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-// Handle Google Sign-In with "Double-Click Protection"
-const googleBtn = document.getElementById('google-login');
-
-document.getElementById('google-login').onclick = () => {
+  // --- GOOGLE SIGN-IN LOGIC ---
+  const googleBtn = document.getElementById('google-login');
+  googleBtn.onclick = () => {
+    googleBtn.disabled = true;
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // Check if this is a brand-new user or if they haven't set a MC name yet
         const isNewUser = result._tokenResponse.isNewUser;
         const existingName = localStorage.getItem('lunaris_mc_name');
 
         if (isNewUser || !existingName) {
-            // Send them to the name-linking page
             window.location.href = "link-account.html";
         } else {
-            // Already set up? Go straight to Command Center
             window.location.href = "joinlink.html";
         }
       })
-      .catch((error) => alert("Auth Error: " + error.message));
-};
+      .catch((error) => {
+        googleBtn.disabled = false;
+        alert("Auth Error: " + error.message);
+      });
+  };
+
+  // --- MANUAL SIGNUP LOGIC (FIXED) ---
+  const signupForm = document.getElementById('signup-form');
+  signupForm.onsubmit = (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const pass = document.getElementById('password').value;
+    const confirmPass = document.getElementById('confirm-password').value;
+
+    if (pass !== confirmPass) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, pass)
+      .then((userCredential) => {
+          // Save the username so we can use it in joinlink.html
+          localStorage.setItem('lunaris_mc_name', username);
+          window.location.href = "joinlink.html";
+      })
+      .catch((error) => {
+          alert("Signup Error: " + error.message);
+      });
+  };
 </script>
 
 </body>
 </html>
-
-
-
