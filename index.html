@@ -3,102 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUNARIS | Command Center</title>
+    <title>LUNARIS SMP | PRESTIGE ACCESS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00f2ff; --secondary: #6e00ff; --bg: #030305; }
-        body { background: var(--bg); color: white; font-family: 'Roboto', sans-serif; margin: 0; overflow-x: hidden; position: relative; min-height: 100vh; }
-        
-        .stars { position: fixed; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; z-index: -1; animation: starMove 200s linear infinite; }
-        @keyframes starMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
+        :root {
+            --primary: #00f2ff;
+            --secondary: #6e00ff;
+            --dark-bg: #030305;
+        }
 
-        nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-        .logo { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 5px; color: var(--primary); }
+        /* Dark Moving Background with Stars */
+        body {
+            background: radial-gradient(circle at center, #080112 0%, #030305 100%);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
 
-        .hero { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; margin: 0; animation: breathing 5s ease-in-out infinite; letter-spacing: 10px; }
-        @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); text-shadow: 0 0 20px var(--primary); } }
+        /* The Moving Small Stars */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.2;
+            z-index: 0;
+            animation: starMove 150s linear infinite;
+        }
 
-        .status-badge { padding: 8px 20px; border-radius: 50px; background: rgba(0,255,100,0.1); border: 1px solid #00ff64; color: #00ff64; font-size: 0.8rem; font-weight: bold; margin-top: 20px; }
+        @keyframes starMove {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 20px 10% 100px; }
-        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; transition: 0.3s; position: relative; overflow: hidden; }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(0,242,255,0.02); }
-        .card h3 { font-family: 'Orbitron', sans-serif; color: var(--primary); margin-top: 0; font-size: 1rem; letter-spacing: 2px; }
+        .container {
+            position: relative;
+            max-width: 600px;
+            width: 85%;
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+            z-index: 2;
+        }
 
-        /* Credential Styling */
-        .cred-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; border: 1px dashed rgba(0,242,255,0.3); font-family: monospace; font-size: 0.85rem; margin: 15px 0; position: relative; }
-        .cred-label { color: var(--primary); font-weight: bold; margin-right: 5px; }
+        /* Breathing Zoom Title */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 3.5rem;
+            margin: 0;
+            letter-spacing: 12px;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: breathingZoom 5s ease-in-out infinite;
+        }
 
-        .btn { display: inline-block; padding: 12px 20px; background: white; color: black; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 0.8rem; transition: 0.3s; text-align: center; flex: 1; }
-        .btn:hover { background: var(--primary); transform: scale(1.05); }
-        .btn-outline { background: transparent; border: 1px solid white; color: white; }
+        @keyframes breathingZoom {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--primary)); }
+            50% { transform: scale(1.06); filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.3)); }
+        }
 
-        footer { text-align: center; padding: 40px; opacity: 0.2; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; position: relative; bottom: 0; width: 100%; box-sizing: border-box; }
-        .credit-tag { position: fixed; bottom: 20px; right: 30px; font-size: 0.6rem; opacity: 0.3; font-family: 'Orbitron', sans-serif; pointer-events: none; }
+        .subtitle {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            color: var(--primary);
+            margin-top: 10px;
+            margin-bottom: 50px;
+            letter-spacing: 6px;
+            opacity: 0.6;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .feature {
+            padding: 15px;
+            border-left: 2px solid var(--secondary);
+            background: rgba(255,255,255,0.03);
+            border-radius: 0 10px 10px 0;
+            transition: 0.3s;
+        }
+
+        .feature:hover {
+            background: rgba(110, 0, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .feature h3 { margin: 0; font-size: 0.8rem; color: var(--primary); text-transform: uppercase; }
+        .feature p { margin: 5px 0 0; font-size: 0.85rem; color: #bbb; line-height: 1.4; }
+
+        /* Inputs and Form */
+        form { position: relative; }
+        input {
+            width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 15px;
+            border: 1px solid #222; background: #000; color: white;
+            font-size: 1rem; box-sizing: border-box; transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px rgba(0, 242, 255, 0.1); }
+
+        .cta-button {
+            width: 100%; padding: 22px; margin-top: 10px;
+            background: #fff; color: #000; border: none; border-radius: 15px;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.1rem;
+            cursor: pointer; transition: 0.4s; text-transform: uppercase;
+        }
+
+        .cta-button:hover { background: var(--primary); box-shadow: 0 0 30px var(--primary); }
+
+        /* Subtle Bottom Credit */
+        .credit {
+            position: absolute;
+            bottom: 20px;
+            right: 25px;
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.15);
+            letter-spacing: 1px;
+            font-family: 'Syncopate', sans-serif;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="stars"></div>
 
-<nav>
-    <div class="logo">LUNARIS</div>
-    <div><a href="invite.html" style="color:white; text-decoration:none; font-size:0.7rem; letter-spacing: 1px; border: 1px solid rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 5px;">+ INVITE FRIENDS</a></div>
-</nav>
+<div class="container animate__animated animate__fadeInUp">
+    <h1 class="">LUNARIS</h1>
+    <p class="subtitle">PREMIUM SMP ARCHITECTURE</p>
 
-<section class="hero animate__animated animate__fadeIn">
-    <h1>COMMAND CENTER</h1>
-    <div class="status-badge">● SYSTEM ONLINE</div>
-</section>
+    <div class="feature-grid">
+        <div class="feature animate__animated animate__fadeInLeft animate__delay-1s">
+            <h3>SIMD Engine</h3>
+            <p>Vector-accelerated loading for zero stutter.</p>
+        </div>
+        <div class="feature animate__animated animate__fadeInRight animate__delay-1s">
+            <h3>Elite AI</h3>
+            <p>Smart entity management keeps TPS at 20.0.</p>
+        </div>
+        <div class="feature animate__animated animate__fadeInLeft animate__delay-2s">
+            <h3>Mesh-VPN</h3>
+            <p>Encrypted peer-to-peer zero-lag connection.</p>
+        </div>
+        <div class="feature animate__animated animate__fadeInRight animate__delay-2s">
+            <h3>Vanilla+</h3>
+            <p>Unbridled performance with pure gameplay.</p>
+        </div>
+    </div>
 
-<section class="grid">
-    <div class="card animate__animated animate__fadeInUp">
-        <h3>ACCESS GATEWAY</h3>
-        <p style="font-size: 0.8rem; color: #aaa;">Authorized Mesh-VPN Credentials:</p>
+    <form action="https://formsubmit.co/play.lunaris@outlook.com" method="POST" class="animate__animated animate__fadeInUp animate__delay-3s">
+        <input type="hidden" name="_next" value="https://lunaris-web.pages.dev/success.html">
+        <input type="hidden" name="_subject" value="LUNARIS: New Prestige Applicant">
+        <input type="hidden" name="_captcha" value="false">
+
+        <input type="text" name="name" placeholder="NAME" required>
+        <input type="email" name="email" placeholder="MAIL" required>
         
-        <div class="cred-box">
-            <div><span class="cred-label">EMAIL:</span>lunarismc@hotmail.com</div>
-            <div style="margin-top: 5px;"><span class="cred-label">PASS:</span> lunaris123</div>
-        </div>
+        <button type="submit" class="cta-button">CLAIM SEAT</button>
+    </form>
+</div>
 
-        <p style="font-size: 0.85rem; margin-top: 15px;"><strong>NODE IP: 100.88.180.24</strong></p>
-        
-        <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <a href="https://tailscale.com/download" target="_blank" class="btn">TAILSCALE</a>
-            <a href="https://login.live.com" target="_blank" class="btn btn-outline">LOGIN MS</a>
-        </div>
-    </div>
-
-    <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-        <h3>S55 ARCHITECTURE</h3>
-        <p style="font-size: 0.8rem; color: #aaa;">Running SIMD Vector Optimized Canvas Engine.</p>
-        <div style="margin: 20px 0 10px; background:#111; height:8px; border-radius:10px; overflow:hidden;">
-            <div style="width:12%; background:var(--primary); height:100%; box-shadow: 0 0 10px var(--primary);"></div>
-        </div>
-        <small style="opacity:0.4; font-size: 0.7rem;">CPU UTILIZATION: 12.4%</small>
-        <p style="font-size: 0.8rem; margin-top: 15px; color: var(--primary);">STATUS: OPTIMIZED</p>
-    </div>
-
-    <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-        <h3>SMP PROTOCOL</h3>
-        <ul style="font-size: 0.8rem; color: #ccc; padding-left: 20px; line-height: 1.8;">
-            <li>Zero-tolerance for griefing.</li>
-            <li>Maintain Mesh-VPN stability.</li>
-            <li>Maximum entity efficiency.</li>
-        </ul>
-        <div style="margin-top: 25px; font-size: 0.7rem; color: #555; text-align: center;">
-            VERSION: 1.21.11 JAVA + BEDROCK
-        </div>
-    </div>
-</section>
-
-<footer>
-    LUNARIS NETWORK V.2026 | BY ABHAY SINGH
-</footer>
-
-<div class="credit-tag">By Abhay Singh</div>
+<div class="credit">By Abhay Singh</div>
 
 </body>
+
 </html>
+
+
+
+
+
+
+
